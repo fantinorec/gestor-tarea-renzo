@@ -119,7 +119,7 @@ export default function TaskManagerScreen() {
               </Pressable>
             </View>
             <Text style={styles.heading}>Gestor de tareas</Text>
-            <Text style={styles.subtitle}>Proyecto de clase para diagnosticar errores reales.</Text>
+            <Text style={styles.subtitle}>Conectado al backend de tareas · Renzo Fantino Recalde</Text>
 
             <View style={styles.statsRow}>
               <View style={[styles.stat, styles.statDark]}>
