@@ -45,12 +45,13 @@ export default function TaskManagerScreen() {
   const total = tasks.length;
   const completed = tasks.filter((task) => task.completed).length;
 
+  // FIX incidencia 3: antes se cambiaba el objeto directamente (mutacion) y se
+  // pasaba el mismo arreglo a setTasks, entonces React no detectaba el cambio
+  // y no se volvia a dibujar la tarjeta. Ahora armo un arreglo nuevo con map.
   function toggleTask(id: string) {
-    const found = tasks.find((task) => task.id === id);
-    if (found) {
-      found.completed = !found.completed;
-      setTasks(tasks);
-    }
+    setTasks((previous) =>
+      previous.map((task) => (task.id === id ? { ...task, completed: !task.completed } : task)),
+    );
   }
 
   function addTask() {
