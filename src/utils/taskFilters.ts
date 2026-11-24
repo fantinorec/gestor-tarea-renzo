@@ -7,5 +7,9 @@ export function filterTasks(tasks: Task[], query: string, status: TaskStatus): T
     return true;
   });
 
-  return byStatus.filter((task) => task.title.includes(query));
+  // FIX incidencia 1: antes se comparaba el texto tal cual (includes distingue
+  // mayusculas y los espacios de mas hacian que no encuentre nada).
+  // Ahora paso los dos textos a minuscula y le saco los espacios a la busqueda.
+  const busqueda = query.trim().toLowerCase();
+  return byStatus.filter((task) => task.title.toLowerCase().includes(busqueda));
 }
