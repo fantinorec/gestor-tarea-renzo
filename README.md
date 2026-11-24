@@ -1,56 +1,46 @@
-# Gestor de tareas — Taller de debugging y testing (Expo SDK 57)
+# Gestor de tareas · Renzo Fantino Recalde
 
-Proyecto **independiente** de React Native + Expo Router + TypeScript para 3.º año. Contiene defectos **intencionales** que permiten enseñar diagnóstico, debugging, pruebas y documentación. No necesita backend: el servicio de tareas es simulado.
+App móvil del taller de EDI (React Native + Expo Router + TypeScript, Expo SDK 57), **conectada al backend de tareas** hecho en Programación III con el profe Montenegro.
 
-## Requisitos
-- Node.js **22.13 o superior** (mínimo para SDK 57; usar una versión LTS compatible).
-- npm y VS Code.
-- Emulador Android, Expo Go compatible, o una development build cuya configuración nativa sea compatible.
+- Backend: `https://api.montenegroariel.com.ar` (documentación en `/docs`)
+- Partí del proyecto original de la clase 11 (Gestor_Tareas_ESTUDIANTES_Expo57) y corregí 6 incidencias. Detalle en `INFORME_INCIDENTES.md`.
 
-## Ejecutar
-```bash
-npm install
-npx expo install --fix
-npx expo start --dev-client
-```
-Abrí la development build instalada y conectala al servidor. Si usás Expo Go (con SDK 57 compatible), ejecutá `npx expo start --go`.
-
-> **Muy importante:** una APK de desarrollo creada para otro proyecto no garantiza compatibilidad nativa con este proyecto. Si falta un módulo, la versión de SDK no coincide o la APK no puede abrirlo, generá una development build correspondiente. Las correcciones de JS/TS **no requieren reconstrucción** de una development build compatible.
-
-## Ejecutar tests
-```bash
-npm test
-```
-El proyecto contiene pruebas que **deben fallar antes de corregir** algunos errores. Se diseñaron para mostrar cómo un test evidencia un fallo.
-
-## Qué puede hacer la app
-- Listar tareas con un servicio mock de 700 ms.
-- Buscar tareas y filtrarlas por estado.
-- Agregar y eliminar tareas.
-- Cambiar el estado completada/pendiente.
-- Expandir tarjetas para ver el detalle.
-- Simular una caída de servicio (HTTP 503 ficticio).
-- Abrir una pantalla con la consigna.
+## Qué hace
+- Lista las tareas del servidor (`GET /tasks/`), con estados de carga, error y lista vacía.
+- Agrega tareas (`POST /tasks/`), valida que el título no esté vacío ni sea solo espacios.
+- Marca como completada / pendiente (`PUT /tasks/{id}`), si falla vuelve atrás y avisa.
+- Elimina tareas (`DELETE /tasks/{id}`).
+- Busca por nombre (sin importar mayúsculas ni espacios) y filtra por estado.
+- Botón "Simular error API" para probar el estado de error.
 
 ## Estructura
 ```text
-app/                      # Rutas de Expo Router (_layout, inicio, guía)
-src/components/           # TaskCard, StatusTabs
-src/services/             # Servicio mock, sin llamadas reales
-src/types/                # Tipos TypeScript
-src/utils/                # Filtrado y validaciones
-__tests__/                # Pruebas unitarias y de componentes
-INFORME_INCIDENTES.md     # Plantilla a completar
+app/               pantallas (index = gestor, guia = consigna)
+src/services/      api.ts (cliente HTTP comun) y taskService.ts (operaciones de tareas)
+src/components/    TaskCard, StatusTabs
+src/utils/         filtros y validaciones
+src/types/         tipos TypeScript
+__tests__/         pruebas con Jest y Testing Library
+eas.json           perfil preview para generar la APK
 ```
 
-## Trabajo del estudiante
-1. Crear un commit de respaldo al iniciar.
-2. Navegar la app y reproducir los comportamientos inesperados.
-3. Corregir **al menos 4 errores** con cambios pequeños y justificados.
-4. Usar DevTools/console y ejecutar `npm test` antes y después.
-5. Completar `INFORME_INCIDENTES.md` y entregar un commit final.
+## Ejecutar
+```powershell
+npm install
+copy .env.example .env
+npx expo start --go
+```
+Escanear el QR con Expo Go (celular y PC en el mismo Wi-Fi).
 
-**Evitar:** buscar soluciones completas o cambiar muchos archivos sin hipótesis de causa raíz.
+## Pruebas
+```powershell
+npm test
+npm run typecheck
+```
 
-## Compatibilidad
-Diseñado para SDK 57 / React Native 0.86 / React 19.2.3. `npx expo install --fix` alinea las versiones con el SDK que realmente utiliza la app; no es una orden para actualizar de SDK mayor. No se incluye APK compilada ni `node_modules` en el ZIP.
+## Generar la APK (perfil preview)
+```powershell
+npx eas-cli login
+npx eas-cli build -p android --profile preview
+```
+Al terminar, EAS da un link para descargar e instalar la APK en Android.
