@@ -39,7 +39,9 @@ export default function TaskManagerScreen() {
     void loadTasks();
   }, []);
 
-  const visibleTasks = useMemo(() => filterTasks(tasks, query, status), [tasks, status]);
+  // FIX incidencia 2: faltaba query en las dependencias del useMemo,
+  // por eso al escribir en el buscador la lista no cambiaba hasta tocar un filtro.
+  const visibleTasks = useMemo(() => filterTasks(tasks, query, status), [tasks, query, status]);
   const total = tasks.length;
   const completed = tasks.filter((task) => task.completed).length;
 
