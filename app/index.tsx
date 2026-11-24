@@ -28,10 +28,13 @@ export default function TaskManagerScreen() {
     try {
       const records = await fetchTasks(simulateFailure);
       setTasks(records);
-      setLoading(false);
     } catch (caught) {
       console.error('[taskService] No se cargaron las tareas', caught);
       setError('No pudimos cargar las tareas. Probá otra vez.');
+    } finally {
+      // FIX incidencia 4: setLoading(false) estaba solo en el try, si la API
+      // fallaba el spinner quedaba girando para siempre. Con finally se ejecuta siempre.
+      setLoading(false);
     }
   }
 
