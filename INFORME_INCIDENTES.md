@@ -80,4 +80,4 @@ Resultado final de `npm test`: **4 suites, 16 tests, todos pasan.**
 - **Qué aprendí y cómo lo aplicaría a mi app final:** aprendí a no cambiar código sin antes reproducir el error y tener una hipótesis. Lo que más me sirvió fue el `finally` y entender que en React no hay que modificar el estado directamente. En la app final voy a separar siempre las llamadas a la API en un servicio y probarlas con un fetch simulado.
 
 ## Uso de asistentes de IA
-Usé Claude (asistente de IA) para: entender la consigna, ubicar algunos de los errores, revisar las correcciones, armar el cliente de la API y los tests del servicio. Tipo de consultas: "por qué no se actualiza la lista si el estado cambia", "cómo manejar errores HTTP con fetch", "cómo probar fetch con jest". Todo lo revisé, lo probé en el celular y lo puedo explicar.
+Usé IA para poder :ubicar algunos de los errores e ir probándolo en el celular.
